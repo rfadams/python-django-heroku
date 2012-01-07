@@ -3,6 +3,7 @@ MySQL-python==1.2.3
 PyYAML==3.09
 South==0.7.3
 distribute==0.6.14
+gunicorn==0.13.4
 psycopg2==2.4.4
 unittest2==0.5.1
 wsgiref==0.1.2

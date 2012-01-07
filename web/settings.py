@@ -3,7 +3,7 @@ import os
 
 #LOCAL SETTINGS
 DB_USER = 'root'
-ROOT_TEMPLATE_DIR = os.getcwd() + '/lib/public/templates' #Path to '*PROJECT_DIR*/lib/public/templates'
+ROOT_TEMPLATE_DIR = os.getcwd() + '/web/public/templates' #Path to '*PROJECT_DIR*/lib/public/templates'
 
 
 

@@ -13,7 +13,7 @@ DB_PASSWORD = ''
 DB_HOST = ''
 DB_PORT = ''
 
-if os.environ.get('DJANGO_ENV', False):
+if os.environ.get('DJANGO_ENV', False) == 'production':
     #Place Heroku / Production settings in here
     DEBUG = True
     DB_ENGINE = 'django.db.backends.mysql'

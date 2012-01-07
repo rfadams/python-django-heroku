@@ -1,8 +1,16 @@
 Steps to get started with Django on Heroku
 1. Create an account at heroku.com
-2. Install the heroku CLI http://devcenter.heroku.com/articles/heroku-command
-3. Create and start a python virtualenv http://pypi.python.org/pypi/virtualenv
+2. Create and start a python virtualenv http://pypi.python.org/pypi/virtualenv
     a) easy_install virtualenv #first time only
     b) mkdir ~/Documents/PythonEnv/ && cd ~/Documents/PythonEnv/
     c) virtualenv --no-site-packages project_name
     d) source ~/Documents/PythonEnv/project_name/bin/activate
+3. git clone git@github.com:rfadams/python-django-heroku.git ~/projects/project_name
+4. cd ~/projects/project_name && pip install -r requirements.txt
+5. python lib/manage.py runserver
+5. Install the heroku CLI http://devcenter.heroku.com/articles/heroku-command
+6. heroku create --stack cedar project-name
+
+
+#Optional
+. mysqladmin -u root -p create projectdb

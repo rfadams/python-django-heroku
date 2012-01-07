@@ -1,8 +1,9 @@
 # Django settings for lib project.
+import os
 
 #LOCAL SETTINGS
 DB_USER = 'root'
-ROOT_TEMPLATE_DIR = '' #Path to '*PROJECT_DIR*/lib/public/templates'
+ROOT_TEMPLATE_DIR = os.getcwd() + '/lib/public/templates' #Path to '*PROJECT_DIR*/lib/public/templates'
 
 
 
@@ -16,11 +17,10 @@ ADMINS = (
 MANAGERS = ADMINS
 
 # Heroku prefers Postgres. Setup an off-site mysql instance, http://addons.heroku.com/cleardb, or postgres.
-# Change name of the database
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-#         'NAME': 'project',                      # Or path to database file if using sqlite3.
+#         'NAME': 'projectdb',                      # Or path to database file if using sqlite3.
 #         'USER': DB_USER,                      # Not used with sqlite3.
 #         'PASSWORD': '',                  # Not used with sqlite3.
 #         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.

@@ -15,4 +15,4 @@ Steps to get started with Django on Heroku
 
 
 #Optional
-. mysqladmin -u root -p create projectdb
+9. mysqladmin -u DBUSER -p create projectdb

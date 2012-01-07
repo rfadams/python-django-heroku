@@ -16,3 +16,10 @@ Steps to get started with Django on Heroku
 
 #Optional
 9. mysqladmin -u DBUSER -p create projectdb
+
+#Assumes you're gonna use South for database management / migrations. http://south.aeracode.org/docs/tutorial/part1.html
+10. python manage.py startapp southtut #Then make a new model
+11. python manage.py schemamigration southtut --initial
+12. python manage.py migrate southtut
+13. python manage.py schemamigration southtut --auto #After you make some changes
+12. python manage.py migrate southtut

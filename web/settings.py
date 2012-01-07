@@ -2,12 +2,27 @@
 import os
 
 #LOCAL SETTINGS
-DB_USER = 'root'
-ROOT_TEMPLATE_DIR = os.getcwd() + '/web/public/templates' #Path to '*PROJECT_DIR*/lib/public/templates'
-
-
-
 DEBUG = True
+PROJECT_ROOT_PATH = os.getcwd()
+ROOT_TEMPLATE_DIR = PROJECT_ROOT_PATH + '/web/public/templates' #Path to '*PROJECT_DIR*/lib/public/templates'
+
+DB_ENGINE = 'django.db.backends.sqlite3'
+DB_NAME = PROJECT_ROOT_PATH = '/project-db.sqlite'
+DB_USER = ''
+DB_PASSWORD = ''
+DB_HOST = ''
+DB_PORT = ''
+
+if os.environ.get('DJANGO_ENV', False):
+    #Place Heroku / Production settings in here
+    DEBUG = True
+    DB_ENGINE = 'django.db.backends.mysql'
+    DB_NAME = 'project-db'
+    DB_USER = 'root'
+    DB_PASSWORD = ''
+
+
+
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -17,16 +32,16 @@ ADMINS = (
 MANAGERS = ADMINS
 
 # Heroku prefers Postgres. Setup an off-site mysql instance, http://addons.heroku.com/cleardb, or postgres.
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-#         'NAME': 'projectdb',                      # Or path to database file if using sqlite3.
-#         'USER': DB_USER,                      # Not used with sqlite3.
-#         'PASSWORD': '',                  # Not used with sqlite3.
-#         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-#         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': DB_ENGINE, # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': DB_NAME,                      # Or path to database file if using sqlite3.
+        'USER': DB_USER,                      # Not used with sqlite3.
+        'PASSWORD': DB_PASSWORD,                  # Not used with sqlite3.
+        'HOST': DB_HOST,                      # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': DB_PORT,                      # Set to empty string for default. Not used with sqlite3.
+    }
+}
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name

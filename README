@@ -3,23 +3,23 @@ Steps to get started with Django on Heroku
 2. Create and start a python virtualenv http://pypi.python.org/pypi/virtualenv
     a) easy_install virtualenv #first time only
     b) mkdir ~/Documents/PythonEnv/ && cd ~/Documents/PythonEnv/
-    c) virtualenv --no-site-packages project_name
-    d) source ~/Documents/PythonEnv/project_name/bin/activate
-3. git clone git@github.com:rfadams/python-django-heroku.git ~/projects/project_name
-4. cd ~/projects/project_name && pip install -r requirements.txt
+    c) virtualenv --no-site-packages project-name
+    d) source ~/Documents/PythonEnv/project-name/bin/activate
+3. git clone git@github.com:rfadams/python-django-heroku.git ~/projects/project-name
+4. cd ~/projects/project-name && pip install -r requirements.txt
 5. python web/manage.py runserver
 6. Install the heroku CLI http://devcenter.heroku.com/articles/heroku-command
-7. heroku create --stack cedar project_name
+7. heroku create --stack cedar project-name
 8. heroku open
  
-
-
 #Optional
 9. mysqladmin -u DBUSER -p create projectdb
 
 #Assumes you're gonna use South for database management / migrations. http://south.aeracode.org/docs/tutorial/part1.html
-10. python manage.py startapp southtut #Then make a new model
-11. python manage.py schemamigration southtut --initial
-12. python manage.py migrate southtut
-13. python manage.py schemamigration southtut --auto #After you make some changes
-12. python manage.py migrate southtut
+10. Uncomment 'south' from the bottom of INSTALLED_APPS in web/settings.py
+10. python manage.py syncdb
+11. python manage.py startapp southtut #Then make a new model
+12. python manage.py schemamigration southtut --initial
+13. python manage.py migrate southtut
+14. python manage.py schemamigration southtut --auto #After you make some changes
+15. python manage.py migrate southtut

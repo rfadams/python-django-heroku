@@ -1,9 +1,9 @@
 # Django settings for lib project.
 import os
+PROJECT_ROOT_PATH = os.getcwd()
 
 #LOCAL SETTINGS
 DEBUG = True
-PROJECT_ROOT_PATH = os.getcwd()
 ROOT_TEMPLATE_DIR = PROJECT_ROOT_PATH + '/web/public/templates' #Path to '*PROJECT_DIR*/lib/public/templates'
 
 DB_ENGINE = 'django.db.backends.sqlite3'
@@ -20,7 +20,6 @@ if os.environ.get('DJANGO_ENV', False) == 'production':
     DB_NAME = 'project-db'
     DB_USER = 'root'
     DB_PASSWORD = ''
-
 
 
 TEMPLATE_DEBUG = DEBUG

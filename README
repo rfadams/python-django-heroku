@@ -23,5 +23,5 @@ Steps to get started with Django on Heroku
 16. python web/manage.py migrate southtut
 
 #Optional
-17. mysqladmin -u DBUSER -p create projectdb
+17. mysqladmin -u DBUSER -p create project-db
 18. modify web/settings.py to reflect your database settings

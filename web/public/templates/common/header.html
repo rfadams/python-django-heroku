@@ -1,5 +1,5 @@
 {% if user.is_authenticated %}
-<p>User: <a href="/accounts/profile">{{ user }}</a> | <a href="/logout">Logout</a></p>
+<p>User: <a href="{% url profile %}">{{ user }}</a> | <a href="{% url logout %}">Logout</a></p>
 {% else %}
-<p><a href="/login">Login</a></p>
+<p><a href="{% url login %}">Login</a> | <a href="{% url signup %}">Signup</a></p>
 {% endif %}

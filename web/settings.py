@@ -122,6 +122,11 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
+AUTHENTICATION_BACKENDS = (
+    'web.util.backends.EmailOrUsernameModelBackend',
+    'django.contrib.auth.backends.ModelBackend'
+)
+
 ROOT_URLCONF = 'web.urls'
 
 TEMPLATE_DIRS = (

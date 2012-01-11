@@ -6,7 +6,7 @@ from web.accounts.views import CreateUserView
 
 admin.autodiscover()
 urlpatterns = patterns('',
-    (r'^$', TemplateView.as_view(template_name='home/homepage.html')),
+    url(r'^$', TemplateView.as_view(template_name='home/homepage.html'), name='homepage'),
 
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),

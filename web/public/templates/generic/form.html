@@ -3,11 +3,5 @@
 
 {% include "header.html" %}
 
-<form method="post" action="{{ form_action }}">
-{% csrf_token %}
-<table>
-{{ form.as_table }}
-</table>
-<button type="submit">Submit</button>
-</form>
+{% include "generic/form_snippet.html" %}
 {% endblock %}

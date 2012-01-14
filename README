@@ -20,8 +20,8 @@ Steps to get started with Django on Heroku
 13. add `'southtut',` just above `'south',` in the `INSTALLED_APPS` setting in web/settings.py
 14. python web/manage.py schemamigration southtut --initial #After making a new model
 15. python web/manage.py migrate southtut
-16. python web/manage.py schemamigration barns --auto #After you make some changes to the model
-17. python web/manage.py migrate barns
+16. python web/manage.py schemamigration southtut --auto #After you make some changes to the model
+17. python web/manage.py migrate southtut
 
 #Optional
 18. mysqladmin -u DBUSER -p create project-db

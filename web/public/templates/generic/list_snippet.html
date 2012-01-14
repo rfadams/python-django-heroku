@@ -1,0 +1,5 @@
+<table>
+{% for object in object_list %}
+<tr><td>{{ forloop.counter }}. (<a href="{% url barns-edit object.id %}">Edit</a>) <a href="{% url barns-detail object.id %}">{{ object }}</a></td></tr>
+{% endfor %}
+</table>

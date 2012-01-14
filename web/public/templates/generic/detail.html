@@ -2,7 +2,7 @@
 {% block body %}
 
 {% include "header.html" %}
-<strong>{{ object }}</strong> <a href="{% url barns-edit object.id %}">Edit</a>
+<strong>{{ object }}</strong> <a href="{% url barns:edit object.id %}">Edit</a>
 <br>
 {% include "generic/detail_snippet.html" %}
 {% endblock %}

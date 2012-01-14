@@ -3,7 +3,13 @@
 
 {% include "header.html" %}
 
-<h1>Account Profile Page</h1>
+<strong>My Profile</strong> (<a href="{% url profile-edit %}">Edit</a> | <a href="{% url profile-editpassword %}">Change Password</a>)<br>
+Email: {{ user.email }}
+
+<br><br>
+
+<strong>My Barns</strong> (<a href="{% url barns-create %}">Add new barn</a>)<br>
+{% include "generic/list_snippet.html" with object_list=user.barn_set.all %}
 
 {% endblock %}
 

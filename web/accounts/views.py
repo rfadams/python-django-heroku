@@ -21,7 +21,7 @@ class CreateUserView(CreateView):
         user_auth = authenticate(username=username, password=password)
         login(self.request, user_auth)
 
-        return HttpResponseRedirect(reverse('profile'))
+        return HttpResponseRedirect(reverse('accounts:profile'))
 
 
 class EditUserView(UpdateView):
@@ -36,6 +36,6 @@ class EditUserView(UpdateView):
         self.object.username = self.object.email = form.cleaned_data.get('email')
         self.object.save()
 
-        return HttpResponseRedirect(reverse('profile'))
+        return HttpResponseRedirect(reverse('accounts:profile'))
 
 

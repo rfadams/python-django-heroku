@@ -3,7 +3,7 @@
 
 {% include "header.html" %}
 
-<strong>My Profile</strong> (<a href="{% url profile-edit %}">Edit</a> | <a href="{% url profile-editpassword %}">Change Password</a>)<br>
+<strong>My Profile</strong> (<a href="{% url accounts:edit %}">Edit</a> | <a href="{% url accounts:password_change %}">Change Password</a>)<br>
 Email: {{ user.email }}
 
 {% endblock %}

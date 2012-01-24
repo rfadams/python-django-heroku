@@ -21,6 +21,7 @@ if os.environ.get('DJANGO_ENV', False) == 'production':
     DB_USER = 'root'
     DB_PASSWORD = ''
 
+APPEND_SLASH = False
 
 TEMPLATE_DEBUG = DEBUG
 
@@ -159,6 +160,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'accounts',
     'south',
 )
 

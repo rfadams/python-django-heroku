@@ -4,26 +4,28 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.template.defaultfilters import slugify
 
-class NewsItem(models.Model):
+class Activity(models.Model):
     creator = models.ForeignKey('auth.User', related_name='activity_creator', db_index=True)
-    receiver = models.ForeignKey('auth.User', related_name='activity_receiver', db_index=True)
+    receiver = models.ForeignKey('auth.User', related_name='activity_receiver', db_index=True, null=True)
     new = models.BooleanField(default=True, db_index=True)
     notification = models.BooleanField(default=False, db_index=True)
     message = models.CharField(max_length=200)
-    url = models.URLField()
+    url = models.CharField(max_length=200, blank=True)
 
     created = models.DateTimeField(editable=False)
 
     def __unicode__(self):
-        return '%s... => %s... : %s' % (self.creator.email[0:7], self.receiver[0:7], self.messsage)
+        receiver = self.receiver.username or 'Nobody'
+        return '%s >> %s : %s' % (self.creator.username, receiver, self.message)
 
     def save(self, *args, **kwargs):
         if not self.id:
             self.created = datetime.datetime.today()
-        super(NewsItem, self).save(*args, **kwargs)
+        super(Activity, self).save(*args, **kwargs)
     
     class Meta:
         ordering = ['-created']
+        verbose_name_plural = 'Activity Log'
 
 
 class Project(models.Model):

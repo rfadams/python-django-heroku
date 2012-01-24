@@ -20,7 +20,7 @@ urlpatterns = patterns('',
 
 #User
 urlpatterns += patterns('', 
-    url(r'^(?P<slug>\w+)$', DetailView.as_view(model=User, slug_field='username', template_name='generic/detail.html'), name='user'),
+    url(r'^(?P<slug>[-\w]+)$', DetailView.as_view(model=User, slug_field='username', template_name='generic/detail.html'), name='user'),
 )
 
 #Projects

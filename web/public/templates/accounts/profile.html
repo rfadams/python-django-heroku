@@ -13,5 +13,11 @@ Email: {{ user.email }}<br>
     (<a href="{% url accounts:project-edit username=user.username slug=project.slug %}">Edit</a>) <a href="{% url accounts:project user.username project.slug %}">{{ project }}</a><br>
 {% endfor %}
 
+<br>
+<strong>Activity Log</strong><br>
+{% for item in user.activity_receiver.all|slice:":5" %}
+    <a href="{% url accounts:user slug=item.receiver.username %}">{{ item.receiver.username }}</a> {{ item.message|safe }} <a href="{{ item.url }}">View details</a><br>
+{% endfor %}
+
 {% endblock %}
 

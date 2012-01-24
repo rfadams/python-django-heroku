@@ -49,9 +49,18 @@ class CreateProjectView(CreateView):
 
         form.instance.creator = user
         project = form.save()
+        project_url = reverse('accounts:project', kwargs={'username': user, 'slug': project.slug})
 
         founder = Founder.objects.get(user=user)
         founder.projects.add(project)
+
+        activity = Activity()
+        activity.creator = user
+        activity.receiver = user
+        activity.new = False
+        activity.message = 'created a new project, <a href="%s">%s</a>!' % (project_url, project.name)
+        activity.url = project_url
+        activity.save()
 
         return HttpResponseRedirect(reverse('accounts:profile'))
 

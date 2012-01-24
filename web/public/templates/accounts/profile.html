@@ -4,7 +4,14 @@
 {% include "header.html" %}
 
 <strong>My Profile</strong> (<a href="{% url accounts:edit %}">Edit</a> | <a href="{% url accounts:password_change %}">Change Password</a>)<br>
-Email: {{ user.email }}
+Username: {{ user.username }}<br>
+Email: {{ user.email }}<br>
+
+<br>
+<strong>My Projects</strong> (<a href="{% url projects:new %}">New</a>)<br>
+{% for project in user.project_set.all %}
+    (<a href="{% url accounts:project-edit username=user.username slug=project.slug %}">Edit</a>) <a href="{% url accounts:project user.username project.slug %}">{{ project }}</a><br>
+{% endfor %}
 
 {% endblock %}
 

@@ -1,10 +1,12 @@
 #User
 /signup
-/user
-/user/edit
+/login
+/account
+/account/edit
 
+/user
 /user/project
-/user/group
+/user/group - details, members
 /user/news
 /user/goals
 /user/points
@@ -19,12 +21,18 @@
 /user/project/edit
 
 #Groups
-/groups/new
-/user/group
-/user/group/edit
+/account/group - view group details
+/account/group/withdraw - withdraw from group
+/account/group/invite - invite somebody
 
 
 
 
 
 
+/groups/new - do through admin interface, people can't create their own groups yet.
+/user/group/join - join group
+/account/group - view group details / members
+/account/group/requests - accept invites from group
+/account/group/withdraw - withdraw from group
+/account/group/boot - boot members from group

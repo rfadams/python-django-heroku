@@ -18,9 +18,18 @@ urlpatterns = patterns('',
     url(r'^account/edit/password$', 'django.contrib.auth.views.password_change', {'template_name': 'generic/form.html', 'post_change_redirect': '/account'}, name='password_change'),
 )
 
+#Groups
+urlpatterns += patterns('', 
+    url(r'^account/group$', GroupDetailView.as_view(), name='group'),
+    url(r'^(?P<slug>[-\w]+)/group/join$', GroupJoinView.as_view(), name='group-join'),
+    url(r'^account/group/withdraw$', GroupWithdrawView.as_view(), name='group-withdraw'),
+    url(r'^account/group/requests$', GroupJoinRequestsView.as_view(), name='group-requests'),
+)
+
 #User
 urlpatterns += patterns('', 
     url(r'^(?P<slug>[-\w]+)$', DetailView.as_view(model=User, slug_field='username', template_name='generic/detail.html'), name='user'),
+    url(r'^(?P<slug>[-\w]+)/group$', GroupDetailView.as_view(), name='user-group'),
 )
 
 #Projects

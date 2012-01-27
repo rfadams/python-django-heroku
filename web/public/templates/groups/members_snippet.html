@@ -1,0 +1,3 @@
+{% for member in group.members.all %}
+    <a href="{% url accounts:user slug=member.username %}">{{ member }}</a>{% if member.id == group.leader.id %} - Leader{% endif %}<br>
+{% endfor %}

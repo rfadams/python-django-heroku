@@ -2,7 +2,8 @@ import datetime
 from django.db import models
 
 from django.core.exceptions import ValidationError
-from django.template.defaultfilters import slugify
+from django.template.defaultfilters import slugify, capfirst
+
 
 class Activity(models.Model):
     creator = models.ForeignKey('auth.User', related_name='activity_creator', db_index=True)
@@ -55,8 +56,6 @@ class Project(models.Model):
         super(Project, self).save(*args, **kwargs)
 
     
-
-
 class Founder(models.Model):
     user = models.ForeignKey('auth.User', unique=True)
     projects = models.ManyToManyField(Project, blank=True)
@@ -77,20 +76,27 @@ class Founder(models.Model):
         ordering = ['user']
 
 
+class Group(models.Model):
+    creator = models.ForeignKey('auth.User', related_name='creator_of_groups', null=True)
+    leader = models.ForeignKey('auth.User', related_name='leader_of_groups', null=True)
+    members = models.ManyToManyField('auth.User', related_name='member_of_group_set')
+    # invites = models.ManyToManyField('auth.User', blank=True, related_name='invites_of_group_set')
+
+    def __unicode__(self):
+        if self.leader:
+            leader_username = self.leader.username
+        else:
+            leader_username = 'No leader'
+
+        return capfirst(leader_username) + ' Group: ' + str([u.username for u in self.members.all()])
 
 
-# class Group(models.Model):
-#     name = models.CharField(max_length=50)
-#     users = models.ManyToManyField('auth.User')
-#     pass
 
 # class Achievement(models.Model):
 #     pass
 
-
 # class Goal(models.Model):
 #     pass
-
 
 # class PointRecord(models.Model):
 #     pass

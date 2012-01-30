@@ -1,9 +1,11 @@
 from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login
+from django.shortcuts import render_to_response
 
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect
-from django.views.generic.base import TemplateView
+from django.http import HttpResponseRedirect, HttpResponse
+from django.template import RequestContext
+from django.views.generic.base import TemplateView, RedirectView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, FormView
@@ -11,6 +13,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 
 from accounts.forms import *
 from accounts.models import *
+from util.models import *
 
 class CreateUserView(CreateView):
     model = User
@@ -112,38 +115,117 @@ class GroupWithdrawView(FormView):
         return HttpResponseRedirect(reverse('accounts:profile'))
 
 
-class GroupJoinView(FormView):
+class GroupSendInviteView(FormView):
     template_name = 'generic/form.html'
-    form_class = GroupJoinForm
-    
+    form_class = GroupSendInviteForm
+
     def get_form(self, form_class):
-        return form_class(request=self.request, **self.get_form_kwargs())
+        return form_class(user=self.request.user, **self.get_form_kwargs())
 
     def form_valid(self, form):
+        cd = form.cleaned_data
         user = self.request.user
-        profile_username = self.kwargs.get('slug', None)
+        receiver = cd.get('user', None)
+        email = cd.get('email', None)
+        invite = Invite()
+        invite.sender = user
 
-        if profile_username:
-            group_member = User.objects.get(username=profile_username)
-            group = group_member.member_of_group_set.all()[0]
+        if receiver:
+            invite.receiver = receiver
+        elif email:
+            receiver = User.objects.create_user(email, email)
+            invite.receiver = receiver
 
-            group.invites.add(user)
+        groups = user.member_of_group_set.all()
+        if groups:
+            group = groups[0]
+        else:
+            group = Group()
+            group.creator = user
+            group.save()
+            group.members.add(user)
+
+        invite.group = group
+        invite.save()
+
+        return HttpResponseRedirect(reverse('accounts:group'))
+
+
+def group_accept_invite_view(request, slug):
+    invite = Invite.objects.get(slug=slug)
+    sender = invite.sender
+    receiver = invite.receiver
+    group = invite.group
+    user = request.user
+
+    if user.is_authenticated():
+        if not user.is_active:
+            return HttpResponse('User account disabled. Sorry. Contact svsteam@svstartups.com')
+        if user != receiver:
+            return HttpResponse('This invite was not meant for you. If you think this is an error, contact svsteam@svstartups.com')
             
-        return HttpResponseRedirect(reverse('accounts:user', kwargs={'slug': profile_username}))
+    #if new user
+    if not receiver.has_usable_password():
+        return HttpResponseRedirect(reverse('accounts:invite-newuser', kwargs={'slug': slug}))
 
-
-class GroupJoinRequestsView(FormView):
-    template_name = 'generic/form.html'
-    form_class = GroupJoinRequestsForm
-
-    def get_form(self, form_class):
-        return form_class(self.request.user, **self.get_form_kwargs())
+    if invite.accepted or invite.declined:
+        return HttpResponse('This invite has already been used. If you think this is an error, contact svsteam@svstartups.com')
     
+    if request.method == 'POST':
+        form = GroupAcceptInviteForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            accept_invite = cd.get('accept_invite', False)
+            decline_invite = cd.get('decline_invite', False)
+
+            if accept_invite:
+                group.members.add(user)
+                invite.accepted = True
+                invite.save()
+                message = 'accepted the invite from <a href="%s">%s</a>.' % (reverse('accounts:user', kwargs={'slug': sender}), sender)
+                url = reverse('accounts:group')
+                
+            
+            if decline_invite:
+                invite.declined = True
+                invite.save()
+                message = 'declined the invite from <a href="%s">%s</a>.' % (reverse('accounts:user', kwargs={'slug': sender}), sender)
+                url = ''
+
+            new_activity(user, message, receiver=sender, url=url, notification=True)
+            new_activity(user, message, url=url)
+
+            return HttpResponseRedirect(reverse('accounts:profile'))
+
+    else:
+        form = GroupAcceptInviteForm()
+
+        if not invite.viewed:
+            invite.viewed = True
+            invite.save()
+
+    return render_to_response('generic/form.html', {'form': form}, context_instance=RequestContext(request))
+        
+
+class GroupViewInviteNewUser(FormView):
+    form_class = CreateUserForm
+    template_name = 'generic/form.html'
+
+    def get_success_url(self):
+        return reverse('accounts:invite-newuser')
+
     def form_valid(self, form):
-        requests = form.cleaned_data.get('requests', [])
+        cd = form.cleaned_data
+        slug = self.kwargs.get('slug', '')
+        invite = Invite.objects.get(slug=slug)
+        receiver = invite.receiver
 
+        receiver.username = cd['username']
+        receiver.email = cd['email']
+        receiver.set_password(cd['password1'])
+        receiver.save()
 
+        user = authenticate(username=cd['username'], password=cd['password1'])
+        login(self.request, user)
 
-        return HttpResponseRedirect('/account/group/requests')
-
-
+        return HttpResponseRedirect(reverse('accounts:invite', kwargs={'slug': slug}))

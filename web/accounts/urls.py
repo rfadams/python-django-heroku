@@ -21,9 +21,16 @@ urlpatterns = patterns('',
 #Groups
 urlpatterns += patterns('', 
     url(r'^account/group$', GroupDetailView.as_view(), name='group'),
-    url(r'^(?P<slug>[-\w]+)/group/join$', GroupJoinView.as_view(), name='group-join'),
     url(r'^account/group/withdraw$', GroupWithdrawView.as_view(), name='group-withdraw'),
-    url(r'^account/group/requests$', GroupJoinRequestsView.as_view(), name='group-requests'),
+    url(r'^account/group/invite$', GroupSendInviteView.as_view(), name='group-invite'),
+    # url(r'^(?P<slug>[-\w]+)/group/join$', GroupJoinView.as_view(), name='group-join'),
+    # url(r'^account/group/requests$', GroupJoinRequestsView.as_view(), name='group-requests'),
+)
+
+#Invites
+urlpatterns += patterns('', 
+    url(r'^invites/(?P<slug>[-\w]+)$', group_accept_invite_view, name='invite'),
+    url(r'^invites/(?P<slug>[-\w]+)/newuser$', GroupViewInviteNewUser.as_view(), name='invite-newuser'),
 )
 
 #User

@@ -1,29 +1,30 @@
 #User
-/signup
-/login
-/account
-/account/edit
+*/signup
+*/login
+*/account
+*/account/edit
 
-/user
-/user/project
-/user/group - details, members
+*/user
+*/user/project
+*/user/group - details, members
 /user/news
 /user/goals
 /user/points
 /user/attendance
 
-/login
-/logout
+*/login
+*/logout
 
 #Projects
-/projects/new
-/user/project
-/user/project/edit
+*/projects/new
+*/user/project
+*/user/project/edit
 
 #Groups
-/account/group - view group details
-/account/group/withdraw - withdraw from group
-/account/group/invite - invite somebody
+*/account/group - view group details
+*/account/group/withdraw - withdraw from group
+*/account/group/invite - invite somebody
+/invites/slug - accept invite (set username and password if new user)
 
 
 

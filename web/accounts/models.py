@@ -4,6 +4,7 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.template.defaultfilters import slugify, capfirst
 
+from util import general
 
 class Activity(models.Model):
     creator = models.ForeignKey('auth.User', related_name='activity_creator', db_index=True)
@@ -18,6 +19,20 @@ class Activity(models.Model):
     def __unicode__(self):
         receiver = self.receiver.username or 'Nobody'
         return '%s >> %s : %s' % (self.creator.username, receiver, self.message)
+    
+    def new_activity_record(self, user, message, *args, **kwargs):
+        self.message = message
+
+        self.creator = user
+        self.receiver = user
+        self.new = True
+        self.notification = False
+        self.url = ''
+
+        for key, value in kwargs.items():
+            self.__setattr__(key, value)
+        
+        super(Activity, self).save()
 
     def save(self, *args, **kwargs):
         if not self.id:
@@ -25,7 +40,7 @@ class Activity(models.Model):
         super(Activity, self).save(*args, **kwargs)
     
     class Meta:
-        ordering = ['-created']
+        ordering = ['created']
         verbose_name_plural = 'Activity Log'
 
 
@@ -36,8 +51,8 @@ class Project(models.Model):
     description = models.TextField()
     url = models.URLField()
 
-    modified    = models.DateTimeField(editable=False)
-    created     = models.DateTimeField(editable=False)
+    modified = models.DateTimeField(editable=False)
+    created = models.DateTimeField(editable=False)
 
     class Meta:
         ordering = ['-modified']
@@ -60,8 +75,8 @@ class Founder(models.Model):
     user = models.ForeignKey('auth.User', unique=True)
     projects = models.ManyToManyField(Project, blank=True)
 
-    modified    = models.DateTimeField(editable=False)
-    created     = models.DateTimeField(editable=False)
+    modified = models.DateTimeField(editable=False)
+    created = models.DateTimeField(editable=False)
 
     def __unicode__(self):
         return self.user.email
@@ -77,8 +92,8 @@ class Founder(models.Model):
 
 
 class Group(models.Model):
-    creator = models.ForeignKey('auth.User', related_name='creator_of_groups', null=True)
-    leader = models.ForeignKey('auth.User', related_name='leader_of_groups', null=True)
+    creator = models.ForeignKey('auth.User', related_name='creator_of_groups', null=True, blank=True)
+    leader = models.ForeignKey('auth.User', related_name='leader_of_groups', null=True, blank=True)
     members = models.ManyToManyField('auth.User', related_name='member_of_group_set')
     # invites = models.ManyToManyField('auth.User', blank=True, related_name='invites_of_group_set')
 
@@ -86,9 +101,32 @@ class Group(models.Model):
         if self.leader:
             leader_username = self.leader.username
         else:
-            leader_username = 'No leader'
+            leader_username = '_Leaderless'
 
         return capfirst(leader_username) + ' Group: ' + str([u.username for u in self.members.all()])
+
+class Invite(models.Model):
+    slug = models.SlugField()
+    group = models.ForeignKey(Group, null=True)
+    sender = models.ForeignKey('auth.User', related_name='sender_of_invite')
+    receiver = models.ForeignKey('auth.User', related_name='receiver_of_invite')
+    
+    viewed = models.BooleanField(default=False)
+    accepted = models.BooleanField(default=False)
+    declined = models.BooleanField(default=False)
+
+    modified = models.DateTimeField(editable=False)
+    created = models.DateTimeField(editable=False)
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.slug = slugify(general.get_random_string())
+            self.created = datetime.datetime.today()
+        self.modified = datetime.datetime.today()
+        super(Invite, self).save(*args, **kwargs)
+
+    def __unicode__(self):
+        return '%s - From: %s, To: %s' % (self.slug, self.sender, self.receiver) 
 
 
 

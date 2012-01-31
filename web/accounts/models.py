@@ -154,7 +154,6 @@ class Point(models.Model):
         return '%s %s %d points' % (self.receiver, self.get_type_display(), self.amount)
 
 
-
 # class Achievement(models.Model):
 #     pass
 

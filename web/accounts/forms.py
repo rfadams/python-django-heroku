@@ -84,9 +84,6 @@ class GroupAcceptInviteForm(forms.Form):
 
         return cd
 
-
-
-
 class PointRewardForm(forms.ModelForm):
     class Meta:
         model = Point
@@ -127,5 +124,3 @@ class PointRewardSelectUserForm(PointRewardForm):
 class PointRewardUserForm(PointRewardForm):
     class Meta(PointRewardForm.Meta):
         exclude = ('sender', 'receiver', 'type')
-
-# PointRewardSelectUserForm = formset_factory(PointRewardSelectUserForm, extra=2)

@@ -33,6 +33,15 @@ urlpatterns += patterns('',
     url(r'^invites/(?P<slug>[-\w]+)/newuser$', GroupViewInviteNewUser.as_view(), name='invite-newuser'),
 )
 
+#Points
+urlpatterns += patterns('', 
+    url(r'^account/points$', PointListView.as_view(), name='points-account'),
+    url(r'^(?P<slug>[-\w]+)/points$', PointListView.as_view(), name='points-user'),
+
+    url(r'^account/points/reward$', PointRewardSelectUserView.as_view(), name='points-rewardselectuser'),
+    url(r'^(?P<slug>[-\w]+)/points/reward$', PointRewardUserView.as_view(), name='points-rewarduser'),
+)
+
 #User
 urlpatterns += patterns('', 
     url(r'^(?P<slug>[-\w]+)$', DetailView.as_view(model=User, slug_field='username', template_name='generic/detail.html'), name='user'),

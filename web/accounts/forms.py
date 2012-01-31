@@ -1,4 +1,5 @@
 from django import forms
+from django.forms.formsets import formset_factory
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
@@ -83,24 +84,48 @@ class GroupAcceptInviteForm(forms.Form):
 
         return cd
 
-# class GroupViewInviteForm
 
 
-# class GroupJoinForm(forms.Form):
-#     def __init__(self, *args, **kwargs):
-#         self.request = kwargs.pop('request', None)
-#         super(GroupJoinForm, self).__init__(*args, **kwargs)
-    
-#     def clean(self):
-#         user = self.request.user
 
-#         if user.member_of_group_set.count() > 0:
-#             raise ValidationError('You are already a member of a group')
+class PointRewardForm(forms.ModelForm):
+    class Meta:
+        model = Point
 
-#         return self.cleaned_data
+    def __init__(self, user, receiver=None, *args, **kwargs):
+        self.user = user
+        self.receiver = receiver
+        super(PointRewardForm, self).__init__(*args, **kwargs)
 
+    def clean(self):
+        cd = self.cleaned_data
+        amount = cd.get('amount', 0)
+        receiver = cd.get('receiver', self.receiver)
+        sender = self.user
+        sender_founder = sender.founder_set.all()[0]
+        receiver_founder = receiver.founder_set.all()[0]
 
-# class GroupJoinRequestsForm(forms.Form):
-#      def __init__(self, user, *args, **kwargs):
-#         super(GroupJoinRequestsForm, self).__init__(*args, **kwargs)
-#         self.fields['requests'] = forms.ModelMultipleChoiceField(label='Requests to join group', queryset=Group.objects.filter(leader=user)[0].invites, widget=forms.CheckboxSelectMultiple)
+        if not receiver:
+            raise ValidationError('You broke the form somehow. Contact svsteam@svstartups.com')
+
+        if amount > sender_founder.rewardable_points:
+            raise ValidationError('You do not have that many points available to reward others.')
+
+        if sender == receiver:
+            raise ValidationError('Seriously? Sorry, buddy! You cannot reward yourself.')
+
+        cd['sender_founder'] = sender_founder
+        cd['receiver_founder'] = receiver_founder
+        cd['sender'] = sender
+        cd['receiver'] = receiver
+
+        return cd
+
+class PointRewardSelectUserForm(PointRewardForm):
+    class Meta(PointRewardForm.Meta):
+        exclude = ('sender', 'type')
+
+class PointRewardUserForm(PointRewardForm):
+    class Meta(PointRewardForm.Meta):
+        exclude = ('sender', 'receiver', 'type')
+
+# PointRewardSelectUserForm = formset_factory(PointRewardSelectUserForm, extra=2)

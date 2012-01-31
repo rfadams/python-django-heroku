@@ -24,16 +24,11 @@
 */account/group - view group details
 */account/group/withdraw - withdraw from group
 */account/group/invite - invite somebody
-/invites/slug - accept invite (set username and password if new user)
+*/invites/slug - accept / decline invite
+*/invites/slug/newuser - if invite sent to new email, setup user account
 
-
-
-
-
-
-/groups/new - do through admin interface, people can't create their own groups yet.
-/user/group/join - join group
-/account/group - view group details / members
-/account/group/requests - accept invites from group
-/account/group/withdraw - withdraw from group
-/account/group/boot - boot members from group
+#Points
+/account/points - list the points you have received
+/user/points - list the points that user has received
+/account/points/reward - reward other people
+/user/points/reward - reward this user

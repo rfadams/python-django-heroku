@@ -74,6 +74,9 @@ class Project(models.Model):
 class Founder(models.Model):
     user = models.ForeignKey('auth.User', unique=True)
     projects = models.ManyToManyField(Project, blank=True)
+    earned_points = models.PositiveIntegerField(default=0)
+    rewardable_points = models.PositiveIntegerField(default=0)
+    spendable_points = models.PositiveIntegerField(default=0)
 
     modified = models.DateTimeField(editable=False)
     created = models.DateTimeField(editable=False)
@@ -106,7 +109,7 @@ class Group(models.Model):
         return capfirst(leader_username) + ' Group: ' + str([u.username for u in self.members.all()])
 
 class Invite(models.Model):
-    slug = models.SlugField()
+    slug = models.SlugField(editable=False)
     group = models.ForeignKey(Group, null=True)
     sender = models.ForeignKey('auth.User', related_name='sender_of_invite')
     receiver = models.ForeignKey('auth.User', related_name='receiver_of_invite')
@@ -127,6 +130,28 @@ class Invite(models.Model):
 
     def __unicode__(self):
         return '%s - From: %s, To: %s' % (self.slug, self.sender, self.receiver) 
+
+class Point(models.Model):
+    point_types = (
+        (1, 'earned'),
+        (2, 'rewarded'),
+        (3, 'spent'),
+    )
+
+    receiver = models.ForeignKey('auth.User', related_name='receiver_of_point')
+    sender = models.ForeignKey('auth.User', related_name='sender_of_point', null=True)
+    amount = models.IntegerField()
+    type = models.PositiveSmallIntegerField(choices=point_types)
+
+    created = models.DateTimeField(editable=False)
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.created = datetime.datetime.today()
+        super(Point, self).save(*args, **kwargs)
+
+    def __unicode__(self):
+        return '%s %s %d points' % (self.receiver, self.get_type_display(), self.amount)
 
 
 

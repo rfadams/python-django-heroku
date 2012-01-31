@@ -227,5 +227,87 @@ class GroupViewInviteNewUser(FormView):
 
         user = authenticate(username=cd['username'], password=cd['password1'])
         login(self.request, user)
+        founder = Founder(user=user)
+        founder.save()
 
         return HttpResponseRedirect(reverse('accounts:invite', kwargs={'slug': slug}))
+
+# def point_reward_select_user_view(request):
+#     if request.method == 'POST':
+#         formset = PointRewardSelectUserForm(request.POST)
+
+#         if formset.is_valid():
+#             cd = formset.cleaned_data
+#             for form in cd:
+#                 point = Point()
+#                 point.sender = request.user
+#                 point.receiver = form['receiver']
+#                 point.amount = form['amount']
+#                 point.type = 2
+#                 point.save()
+
+#     else:
+#         formset = PointRewardSelectUserForm()
+
+#     return render_to_response('generic/form.html', {'form': formset}, context_instance=RequestContext(request))
+
+class PointRewardView(CreateView):
+    template_name = 'generic/form.html'
+
+    def form_valid(self, form):
+        cd = form.cleaned_data
+        sender = cd['sender']
+        receiver = cd['receiver']
+        amount = cd['amount']
+
+        point = Point()
+        point.sender = sender
+        point.receiver = receiver
+        point.amount = amount
+        point.type = 2
+        point.save()
+
+        sender_founder = cd['sender_founder']
+        sender_founder.rewardable_points = sender_founder.rewardable_points - amount
+        sender_founder.save()
+
+        receiver_founder = cd['receiver_founder']
+        receiver_founder.earned_points = receiver_founder.earned_points + amount
+        receiver_founder.spendable_points = receiver_founder.spendable_points + amount
+        receiver_founder.save()
+
+        new_activity(sender, 'was rewarded points', receiver=receiver)
+
+
+        # return HttpResponseRedirect(self.get_success_url())
+        return HttpResponse()
+
+class PointRewardSelectUserView(PointRewardView):
+    form_class = PointRewardSelectUserForm
+
+    def get_form(self, form_class):
+        return form_class(user=self.request.user, **self.get_form_kwargs())
+
+    def get_success_url(self):
+        return reverse('accounts:profile')
+
+class PointRewardUserView(PointRewardView):
+    form_class = PointRewardUserForm
+
+    def get_form(self, form_class):
+        slug = self.kwargs.get('slug')
+        receiver = User.objects.get(username=slug)
+        sender = self.request.user
+        return form_class(user=sender, receiver=receiver, **self.get_form_kwargs())
+    
+    def get_success_url(self):
+        return reverse('accounts:user', kwargs={'slug': self.kwargs.get('slug')})
+
+class PointListView(ListView):
+    template_name = 'generic/list.html'
+
+    def get_queryset(self):
+        username = self.kwargs.get('slug') or self.request.user.username
+        return Point.objects.filter(receiver__username=username)
+
+

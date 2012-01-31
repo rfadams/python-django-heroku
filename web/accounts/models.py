@@ -109,7 +109,11 @@ class Group(models.Model):
         return capfirst(leader_username) + ' Group: ' + str([u.username for u in self.members.all()])
 
 class Invite(models.Model):
+<<<<<<< HEAD
     slug = models.SlugField(editable=False)
+=======
+    slug = models.SlugField()
+>>>>>>> 2744d909d619c9de1ef28171ab4d0abcbbb316bb
     group = models.ForeignKey(Group, null=True)
     sender = models.ForeignKey('auth.User', related_name='sender_of_invite')
     receiver = models.ForeignKey('auth.User', related_name='receiver_of_invite')
@@ -152,7 +156,6 @@ class Point(models.Model):
 
     def __unicode__(self):
         return '%s %s %d points' % (self.receiver, self.get_type_display(), self.amount)
-
 
 
 # class Achievement(models.Model):

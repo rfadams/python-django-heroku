@@ -32,3 +32,4 @@
 /user/points - list the points that user has received
 /account/points/reward - reward other people
 /user/points/reward - reward this user
+

@@ -278,9 +278,8 @@ class PointRewardView(CreateView):
 
         new_activity(sender, 'was rewarded points', receiver=receiver)
 
-
-        # return HttpResponseRedirect(self.get_success_url())
-        return HttpResponse()
+        return HttpResponseRedirect(self.get_success_url())
+        
 
 class PointRewardSelectUserView(PointRewardView):
     form_class = PointRewardSelectUserForm

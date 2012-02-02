@@ -2,7 +2,9 @@
 {% block body %}
 
 {% include "header.html" %}
-<strong>{{ object }}</strong> (<a href="{% url barns:edit object.id %}">Edit</a>)
-<br>
-{% include "generic/detail_snippet.html" %}
+<div class="row">
+    <div class="offset2 span8">
+        {% include "generic/detail_snippet.html" %}
+    </div>
+</div>
 {% endblock %}

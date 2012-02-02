@@ -2,6 +2,9 @@
 {% block body %}
 
 {% include "header.html" %}
-<a href="{% url barns:create %}">Add new barn<a><br><br>
-{% include "generic/list_snippet.html" %}
+<div class="row">
+    <div class="offset2 span8">
+        {% include "generic/list_snippet.html" %}
+    </div>
+</div>
 {% endblock %}

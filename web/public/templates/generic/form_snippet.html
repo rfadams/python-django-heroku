@@ -1,7 +1,26 @@
-<form method="post" action="{{ form_action }}">
-{% csrf_token %}
-<table>
-{{ form.as_table }}
-</table>
-<button type="submit">Submit</button>
+<form class="form-horizontal" method="post" action="{{ form_action_url }}">{% csrf_token %}
+    <fieldset>
+    <legend>{{ form_title|default:"Form Title" }}</legend>
+    {% if form.non_field_errors %}
+        <div class="span5 offset1">
+        {% for error in form.non_field_errors %}
+            <div class="alert alert-error">{{ error }}</div>
+        {% endfor %}
+        </div>
+    {% endif %}
+    {% for field in form %}
+        <div class="control-group{% if field.errors %} error{% endif %}">
+            {{ field.errors }}
+            {{ field.label_tag }}
+            <div class="controls">
+                {{ field }}            
+                <div class="help-block">{{ field.help_text }}</div>
+            </div>        
+        </div>
+    {% endfor %}
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a class="btn" href="{{ form_cancel_url|default:'javascript:history.go(-1)' }}">Cancel</a>
+        </div>
+    </fieldset>
 </form>

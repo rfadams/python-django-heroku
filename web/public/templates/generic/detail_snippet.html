@@ -1,8 +1,9 @@
-<h2>{{ object_title|default:"Object Title" }}</h2>
+{% if object.details %}
+    {% include "generic/list_snippet.html" with table_title=object object_list=object.details %}
+{% else %}
+<h2>{{ object_title|title|default:"Object Title" }}</h2>
 <div class="well">
     {{ object }}
-    {% if object.details %}
-        {% include "generic/list_snippet.html" with object_list=object.details %}
-    {% endif %}
 </div>
+{% endif %}
 

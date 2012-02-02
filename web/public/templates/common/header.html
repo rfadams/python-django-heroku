@@ -1,5 +1,22 @@
-{% if user.is_authenticated %}
-<p>User: <a href="{% url accounts:profile %}">{{ user }}</a> | <a href="{% url accounts:logout %}">Logout</a></p>
-{% else %}
-<p><a href="{% url accounts:login %}">Login</a> | <a href="{% url accounts:signup %}">Signup</a></p>
-{% endif %}
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="brand" href="/">Project name</a>
+            <ul class="nav">
+                <li class="active"><a href="/">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <ul class="nav pull-right">
+                {% if user.is_authenticated %}
+                <li><a href="{% url accounts:profile %}">{{ user }}</a></li>
+                <li><a href="{% url accounts:logout %}">logout</a></li>
+                {% else %}
+                <li><a href="{% url accounts:signup %}">signup</a></li>
+                <li><a href="{% url accounts:login %}">login</a></li>
+                {% endif %}
+            </ul>
+        
+        </div>
+    </div>
+</div>

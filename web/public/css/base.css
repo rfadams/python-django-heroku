@@ -1,0 +1,27 @@
+/* @override http://127.0.0.1:8000/public/css/base.css */
+
+/* @group General */
+body{
+    padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+}
+/*.errorlist{
+    color:red;
+    margin: 0 0 5px;
+    list-style-type: none;
+}*/
+
+
+/* @end */
+
+/* @group Header */
+.control-group.error .help-block, .control-group.error .help-inline{
+	color: #999999;
+}
+
+.form-horizontal .control-group.error .errorlist{
+	margin: 0 0 2px 160px;
+	list-style-type: none;
+	color: #b94a48;
+}
+
+/* @end */

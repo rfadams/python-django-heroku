@@ -21,6 +21,11 @@ if os.environ.get('DJANGO_ENV', False) == 'production':
     DB_USER = 'root'
     DB_PASSWORD = ''
 
+LOGIN_REDIRECT_URL = '/profile'
+LOGIN_URL = '/login'
+LOGOUT_URL = '/logout'
+
+
 APPEND_SLASH = False
 
 TEMPLATE_DEBUG = DEBUG
@@ -83,7 +88,7 @@ STATIC_ROOT = ''
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
-STATIC_URL = '/static/'
+STATIC_URL = '/public/'
 
 # URL prefix for admin static files -- CSS, JavaScript and images.
 # Make sure to use a trailing slash.
@@ -92,6 +97,7 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
+    '' + PROJECT_ROOT_PATH + '/web/public/',
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.

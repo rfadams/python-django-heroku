@@ -1,4 +1,8 @@
-{% for field in object.details %}
-    {{ field.0 }}: {{ field.1 }}<br>
-{% endfor %}
+<h2>{{ object_title|default:"Object Title" }}</h2>
+<div class="well">
+    {{ object }}
+    {% if object.details %}
+        {% include "generic/list_snippet.html" with object_list=object.details %}
+    {% endif %}
+</div>
 

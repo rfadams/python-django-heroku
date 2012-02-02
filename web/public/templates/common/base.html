@@ -1,19 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta name="viewport" content="width=1000" />
-    <title>Title</title>
-    <style type="text/css">
-    .errorlist{
-        color:red;
-        margin: 0 0 5px;
-        list-style-type: none;
-    }
-    </style>
+    <meta charset="utf-8">
+    <title>{% block title %}Title{% endblock title %}</title>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    
+    <!-- Le styles -->
+    <link href="/public/css/bootstrap.css" rel="stylesheet">
+    <link href="/public/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/public/css/base.css" rel="stylesheet">
+
     {% block headCSS %}{% endblock headCSS %}
     {% block headJS %}{% endblock headJS %}
 </head>
 <body>
-    {% block body %}{% endblock body %}
+    {% include "header.html" %}
+    <div class="container">
+        {% block body %}
+        <h1>Starter Template</h1>
+        <p>Use this document as a way to quick start any new project.<br> All you get is this message and a barebones HTML document.</p>
+        {% endblock body %}
+    </div> <!-- /container -->
+
+    <!-- Le javascript -->
+    <!-- All Bootstrap jQuery plugs were included and compiled into bootstrap.js -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="/public/js/bootstrap.min.js"></script>
+    <script src="http://platform.twitter.com/widgets.js"></script>
 </body>
 </html>

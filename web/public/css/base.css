@@ -14,6 +14,13 @@ body{
 /* @end */
 
 /* @group Header */
+table.table-compress > thead > tr > th:first-child{
+	width: 20%;
+}
+
+/* @end */
+
+/* @group Forms */
 .control-group.error .help-block, .control-group.error .help-inline{
 	color: #999999;
 }
@@ -24,4 +31,9 @@ body{
 	color: #b94a48;
 }
 
+form div.control-group {
+	clear: both;	
+}
+
 /* @end */
+

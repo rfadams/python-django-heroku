@@ -3,7 +3,8 @@
 {% else %}
 <h2>{{ object_title|title|default:"Object Title" }}</h2>
 <div class="well">
-    {{ object }}
+    {% load markup %}
+    {{ object|markdown:'codehilite' }}
 </div>
 {% endif %}
 

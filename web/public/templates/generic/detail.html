@@ -4,7 +4,11 @@
 {% include "header.html" %}
 <div class="row">
     <div class="offset2 span8">
-        {% include "generic/detail_snippet.html" %}
+        {% if flatpage %}
+            {% include "generic/detail_snippet.html" with object=flatpage.content object_title=flatpage.title %}
+        {% else %}
+            {% include "generic/detail_snippet.html" %}
+        {% endif %}
     </div>
 </div>
 {% endblock %}

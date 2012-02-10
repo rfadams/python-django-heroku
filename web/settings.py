@@ -21,9 +21,9 @@ if os.environ.get('DJANGO_ENV', False) == 'production':
     DB_USER = 'root'
     DB_PASSWORD = ''
 
-LOGIN_REDIRECT_URL = '/profile'
-LOGIN_URL = '/login'
-LOGOUT_URL = '/logout'
+LOGIN_REDIRECT_URL = '/profile/'
+LOGIN_URL = '/login/'
+LOGOUT_URL = '/logout/'
 
 APPEND_SLASH = False
 

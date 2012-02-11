@@ -53,6 +53,10 @@ web/static_production/adminmedia
 
 *tmp*
 venv
+*.orig
+*.BACKUP.*
+*.LOCAL.*
+*.REMOTE.*
 
 #Node
 node_modules

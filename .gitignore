@@ -53,6 +53,7 @@ web/static_production/adminmedia
 
 *tmp*
 venv
+*.orig
 
 #Node
 node_modules

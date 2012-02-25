@@ -17,9 +17,11 @@ if os.environ.get('DJANGO_ENV', False) == 'production':
     #Place Heroku / Production settings in here
     DEBUG = True
     DB_ENGINE = 'django.db.backends.mysql'
-    DB_NAME = 'project-db'
-    DB_USER = 'root'
-    DB_PASSWORD = ''
+    DB_NAME = 'svs'
+    DB_USER = 'svs'
+    DB_PASSWORD = 'RuIjKhL837291aRb'
+    DB_HOST = '23.21.166.66'
+    DB_PORT = '3306'
 
 LOGIN_REDIRECT_URL = '/profile/'
 LOGIN_URL = '/login/'

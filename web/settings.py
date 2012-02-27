@@ -21,11 +21,9 @@ if os.environ.get('DJANGO_ENV', False) == 'production':
     DB_USER = 'root'
     DB_PASSWORD = ''
 
-LOGIN_REDIRECT_URL = '/profile'
-LOGIN_URL = '/login'
-LOGOUT_URL = '/logout'
-
-APPEND_SLASH = False
+LOGIN_REDIRECT_URL = '/profile/'
+LOGIN_URL = '/login/'
+LOGOUT_URL = '/logout/'
 
 TEMPLATE_DEBUG = DEBUG
 
@@ -126,6 +124,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'web.util.debug.DebugFooter',
 )
 
@@ -161,6 +160,8 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.flatpages',
+    'django.contrib.markup',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:

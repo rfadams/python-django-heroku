@@ -3,6 +3,7 @@ import os
 PROJECT_ROOT_PATH = os.getcwd()
 
 #LOCAL SETTINGS
+PRODUCTION = False
 DEBUG = True
 ROOT_TEMPLATE_DIR = PROJECT_ROOT_PATH + '/web/templates' #Path to '*PROJECT_DIR*/lib/public/templates'
 
@@ -15,6 +16,7 @@ DB_PORT = ''
 
 if os.environ.get('DJANGO_ENV', False) == 'production':
     #Place Heroku / Production settings in here
+    PRODUCTION = True
     DEBUG = True
 
 LOGIN_REDIRECT_URL = '/profile/'

@@ -4,7 +4,7 @@ PROJECT_ROOT_PATH = os.getcwd()
 
 #LOCAL SETTINGS
 DEBUG = True
-ROOT_TEMPLATE_DIR = PROJECT_ROOT_PATH + '/web/public/templates' #Path to '*PROJECT_DIR*/lib/public/templates'
+ROOT_TEMPLATE_DIR = PROJECT_ROOT_PATH + '/web/templates' #Path to '*PROJECT_DIR*/lib/public/templates'
 
 DB_ENGINE = 'django.db.backends.sqlite3'
 DB_NAME = PROJECT_ROOT_PATH + '/project-db.sqlite'

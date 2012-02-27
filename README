@@ -11,6 +11,7 @@ Steps to get started with Django on Heroku
 6. Install the heroku CLI http://devcenter.heroku.com/articles/heroku-command
 7. heroku create --stack cedar project-name
 8. heroku config:add DJANGO_ENV=production
+9. heroku config:add DATABASE_URL=[mysql | postgres]://user:password@host:port/databaseName
 9. git push heroku master
 10. heroku open
 

@@ -190,5 +190,3 @@ INSTALLED_APPS = (
 #         },
 #     }
 # }
-
-print '' + PROJECT_ROOT_PATH + '/lib/python2.7/site-packages/django/contrib/admin/media/'

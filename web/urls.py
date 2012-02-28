@@ -17,4 +17,5 @@ urlpatterns = patterns('',
 if settings.PRODUCTION: 
     urlpatterns += patterns('',
         url(r'^public/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATICFILES_DIRS[0]}),
+        url(r'^public/admin/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.PROJECT_ROOT_PATH + '/lib/python2.7/site-packages/django/contrib/admin/media/'}),
     )

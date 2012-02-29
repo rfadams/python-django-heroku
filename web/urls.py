@@ -16,5 +16,5 @@ urlpatterns = patterns('',
 
 if settings.PRODUCTION: 
     urlpatterns += patterns('',
-        url(r'^public/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATICFILES_DIRS[0]}),
+        url(r'^public/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
     )

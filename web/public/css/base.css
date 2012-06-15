@@ -14,7 +14,7 @@ body{
 /* @end */
 
 /* @group Header */
-table.table-compress > thead > tr > th:first-child{
+table.generic.table-compress > thead > tr > th:first-child{
 	width: 20%;
 }
 
@@ -29,6 +29,16 @@ table.table-compress > thead > tr > th:first-child{
 	margin: 0 0 2px 160px;
 	list-style-type: none;
 	color: #b94a48;
+}
+
+form.well{
+    padding: 10px;
+}
+
+.form-inline .error .errorlist{
+    margin: 0 0 2px 100px;
+    list-style-type: none;
+    color: #b94a48;
 }
 
 form div.control-group {

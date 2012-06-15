@@ -1,5 +1,5 @@
 <h2>{{ table_title|title|default:"Table Title" }}</h2>
-<table class="table table-striped table-bordered table-compress">
+<table class="table generic table-striped table-bordered table-compress">
 {% for object in object_list %}
 {% if object|length_is:"2" %}
     {% if forloop.first %}

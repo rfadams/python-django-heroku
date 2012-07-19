@@ -14,10 +14,22 @@ DB_PASSWORD = ''
 DB_HOST = ''
 DB_PORT = ''
 
+MEDIA_ROOT = '' + PROJECT_ROOT_PATH + '/web/public/media/'
+MEDIA_URL = '/public/media/'
+
 if os.environ.get('DJANGO_ENV', False) == 'production':
     #Place Heroku / Production settings in here
     PRODUCTION = True
     DEBUG = True
+
+    MEDIA_ROOT = ''
+    MEDIA_URL = '/media/'
+else:
+    import warnings
+    warnings.filterwarnings(
+        'error', r"DateTimeField received a naive datetime",
+        RuntimeWarning, r'django\.db\.models\.fields')
+
 
 LOGIN_REDIRECT_URL = '/profile/'
 LOGIN_URL = '/login/'
@@ -50,6 +62,7 @@ DATABASES = {
 # timezone as the operating system.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
+USE_TZ = True
 TIME_ZONE = 'America/Chicago'
 
 # Language code for this installation. All choices can be found here:
@@ -68,12 +81,12 @@ USE_L10N = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = ''
+# MEDIA_ROOT = ''
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-MEDIA_URL = ''
+# MEDIA_URL = ''
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files

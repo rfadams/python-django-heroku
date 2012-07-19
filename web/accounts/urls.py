@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import patterns, include, url
 from django.views.generic.base import TemplateView
 
-from web.accounts.views import CreateUserView, EditUserView
+from accounts.views import CreateUserView, EditUserView
 
 urlpatterns = patterns('',
     url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'generic/form.html'}, name='login'),

@@ -137,15 +137,15 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
-    'web.util.debug.DebugFooter',
+    'util.debug.DebugFooter',
 )
 
 AUTHENTICATION_BACKENDS = (
-    'web.util.backends.EmailOrUsernameModelBackend',
+    'util.backends.EmailOrUsernameModelBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
 
-ROOT_URLCONF = 'web.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
     ROOT_TEMPLATE_DIR,

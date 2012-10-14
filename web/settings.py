@@ -25,10 +25,12 @@ if os.environ.get('DJANGO_ENV', False) == 'production':
     MEDIA_ROOT = ''
     MEDIA_URL = '/media/'
 else:
-    import warnings
-    warnings.filterwarnings(
-        'error', r"DateTimeField received a naive datetime",
-        RuntimeWarning, r'django\.db\.models\.fields')
+    pass
+    # Enable if want to find where naive datetimes are used. Warning: causes lots of problems
+    # import warnings
+    # warnings.filterwarnings(
+    #     'error', r"DateTimeField received a naive datetime",
+    #     RuntimeWarning, r'django\.db\.models\.fields')
 
 
 LOGIN_REDIRECT_URL = '/profile/'
@@ -63,7 +65,7 @@ DATABASES = {
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
 USE_TZ = True
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'US/Pacific'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -179,6 +181,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'south',
+    'django_extensions',
 )
 
 # A sample logging configuration. The only tangible logging

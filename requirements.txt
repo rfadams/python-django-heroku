@@ -5,6 +5,7 @@ PyYAML==3.09
 Pygments==1.4
 South==0.7.6
 distribute==0.6.14
+django-extensions==0.9
 gunicorn==0.13.4
 psycopg2==2.4.4
 pytz==2012c

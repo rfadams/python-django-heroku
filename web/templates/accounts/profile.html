@@ -1,10 +1,15 @@
 {% extends "base.html" %}
 {% block body %}
 
-{% include "header.html" %}
 
-<strong>My Profile</strong> (<a href="{% url accounts:edit %}">Edit</a> | <a href="{% url accounts:password_change %}">Change Password</a>)<br>
-Email: {{ user.email }}
+<div class="row">
+  <div class="offset2 span8">
+
+    <strong>My Profile</strong> (<a href="{% url accounts:edit %}">Edit</a> | <a href="{% url accounts:password_change %}">Change Password</a>)<br>
+    Email: {{ user.email }}
+
+  </div>
+</div>
 
 {% endblock %}
 

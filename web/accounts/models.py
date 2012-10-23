@@ -7,10 +7,12 @@ from util.tools import *
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
 
+    hash = models.CharField(max_length=8, db_index=True, editable=False)
 
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        UserProfile.objects.create(user=instance)
+        hash = rand_str(size=8)
+        UserProfile.objects.create(user=instance, hash=hash)
 
 post_save.connect(create_user_profile, sender=User)
 

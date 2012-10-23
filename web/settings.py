@@ -39,6 +39,8 @@ LOGOUT_URL = '/logout/'
 
 TEMPLATE_DEBUG = DEBUG
 
+AUTH_PROFILE_MODULE = 'accounts.UserProfile'
+
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )

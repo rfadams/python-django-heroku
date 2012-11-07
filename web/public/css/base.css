@@ -18,6 +18,10 @@ table.generic.table-compress > thead > tr > th:first-child{
 	width: 20%;
 }
 
+.help-block{
+  font-size: 12px;
+}
+
 /* @end */
 
 /* @group Forms */

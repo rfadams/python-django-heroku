@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect
 from django.views.generic.edit import CreateView, UpdateView, FormView
 from django.contrib.auth.forms import PasswordChangeForm, AuthenticationForm 
 
-from accounts.forms import CreateUserForm, EditUserForm
+from accounts.forms import *
 from util.models import *
 
 class CreateUserView(DefaultsMixin, CreateView):
@@ -18,8 +18,12 @@ class CreateUserView(DefaultsMixin, CreateView):
     def form_valid(self, form):
         username = email = form.cleaned_data.get('username')
         password = form.cleaned_data.get('password1')
+        first_name = form.cleaned_data.get('first_name')
 
-        self.object = User.objects.create_user(username, email, password)
+        self.object = user = User.objects.create_user(username, email, password)
+        user.first_name = first_name
+        user.save()
+
         user_auth = authenticate(username=username, password=password)
         login(self.request, user_auth)
 
@@ -48,7 +52,7 @@ class EditUserView(UpdateView):
 
 class LoginUserView(DefaultsMixin, FormView):
     form_title = 'Login'
-    form_class = AuthenticationForm
+    form_class = LoginUserForm
     template_name = 'generic/form.html'
   
     def form_valid(self, form):

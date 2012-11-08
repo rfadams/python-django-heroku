@@ -1,4 +1,4 @@
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib.auth import authenticate, login
 
 from django.contrib.auth.models import User
@@ -16,9 +16,11 @@ class CreateUserView(DefaultsMixin, CreateView):
     template_name = 'generic/form.html'
 
     def form_valid(self, form):
-        username = email = form.cleaned_data.get('username')
-        password = form.cleaned_data.get('password1')
-        first_name = form.cleaned_data.get('first_name')
+        cleaned_data = form.cleaned_data
+        username = email = cleaned_data.get('username')
+        password = cleaned_data.get('password1')
+        first_name = cleaned_data.get('first_name')
+        redirect_to = cleaned_data.get('redirect_to', '') or reverse_lazy('accounts:profile')
 
         self.object = user = User.objects.create_user(username, email, password)
         user.first_name = first_name
@@ -27,7 +29,7 @@ class CreateUserView(DefaultsMixin, CreateView):
         user_auth = authenticate(username=username, password=password)
         login(self.request, user_auth)
 
-        return HttpResponseRedirect(reverse('accounts:profile'))
+        return HttpResponseRedirect(redirect_to)
 
     def get_context_data(self, **kwargs):
         context = super(CreateUserView, self).get_context_data(**kwargs)
@@ -56,13 +58,15 @@ class LoginUserView(DefaultsMixin, FormView):
     template_name = 'generic/form.html'
   
     def form_valid(self, form):
-        username = email = form.cleaned_data.get('username')
-        password = form.cleaned_data.get('password')
-  
+        cleaned_data = form.cleaned_data
+        username = email = cleaned_data.get('username')
+        password = cleaned_data.get('password')
+        redirect_to = cleaned_data.get('redirect_to', '') or reverse_lazy('accounts:profile')
+
         user_auth = authenticate(username=username, password=password)
         login(self.request, user_auth)
   
-        return HttpResponseRedirect(reverse('accounts:profile'))
+        return HttpResponseRedirect(redirect_to)
   
     def get_context_data(self, **kwargs):
         context = super(LoginUserView, self).get_context_data(**kwargs)

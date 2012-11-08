@@ -11,11 +11,19 @@
     {% for field in form %}
         <div class="control-group{% if field.errors %} error{% endif %}">
             {{ field.errors }}
+            {% if field.is_hidden %}
+                {% if field.html_name == 'redirect_to' and redirect_to %}
+                    <input id="id_{{ field.html_name }}" type="hidden" name="{{ field.html_name }}" value="{{ redirect_to }}" />
+                {% else %}
+                    {{ field }}
+                {% endif %}
+            {% else %}
             <label class="control-label" for="{{ form.html_name }}">{{ field.label }}</label>
             <div class="controls">
                 {{ field }}            
                 <div class="help-block">{{ field.help_text }}</div>
             </div>        
+            {% endif %}
         </div>
     {% endfor %}
         <div class="form-actions">

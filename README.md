@@ -19,13 +19,13 @@
 
 ### Assumes you're gonna use South for database management / migrations. http://south.aeracode.org/docs/tutorial/part1.html
 // Database should already be sync'd using steps from above  
-12. python web/manage.py startapp southtut  
-13. add `'southtut',` just above `'south',` in the `INSTALLED_APPS` setting in web/settings.py  
-14. python web/manage.py schemamigration southtut --initial #After making a new model  
-15. python web/manage.py migrate southtut  
-16. python web/manage.py schemamigration southtut --auto #After you make some changes to the model  
-17. python web/manage.py migrate southtut  
+1. python web/manage.py startapp southtut  
+2. add `'southtut',` just above `'south',` in the `INSTALLED_APPS` setting in web/settings.py  
+3. python web/manage.py schemamigration southtut --initial #After making a new model  
+4. python web/manage.py migrate southtut  
+5. python web/manage.py schemamigration southtut --auto #After you make some changes to the model  
+6. python web/manage.py migrate southtut  
 
 ### Optional
-18. mysqladmin -u DBUSER -p create project-db
-19. modify web/settings.py to reflect your database settings
+1. mysqladmin -u DBUSER -p create project-db
+2. modify web/settings.py to reflect your database settings

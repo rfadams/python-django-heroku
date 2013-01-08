@@ -1,11 +1,13 @@
-Steps to get started with Django on Heroku
-1. Create and start a python virtualenv http://pypi.python.org/pypi/virtualenv
-    a) easy_install virtualenv #first time only
-    b) mkdir ~/Documents/PythonEnv/ && cd ~/Documents/PythonEnv/
-    c) virtualenv --no-site-packages project-name
-    d) source ~/Documents/PythonEnv/project-name/bin/activate
+# Steps to get started with Django on Heroku
+1. Create and start a python virtualenv http://pypi.python.org/pypi/virtualenv  
+    a) easy_install virtualenv #first time only  
+    b) mkdir ~/Documents/PythonEnv/ && cd ~/Documents/PythonEnv/  
+    c) virtualenv project-name  
+    d) source ~/Documents/PythonEnv/project-name/bin/activate  
 2. git clone https://rfadams@github.com/rfadams/python-django-heroku.git ~/projects/project-name
 3. cd ~/projects/project-name && pip install -r requirements.txt
+4. python web/manage.py syncdb --all //Gets user account profile configured properly
+5. python web/manage.py migrate --fake //Gets South migration configured properly
 4. python web/manage.py runserver
 5. Create an account at http://heroku.com
 6. Install the heroku CLI http://devcenter.heroku.com/articles/heroku-command
@@ -15,8 +17,8 @@ Steps to get started with Django on Heroku
 9. git push heroku master
 10. heroku open
 
-#Assumes you're gonna use South for database management / migrations. http://south.aeracode.org/docs/tutorial/part1.html
-11. python web/manage.py syncdb
+### Assumes you're gonna use South for database management / migrations. http://south.aeracode.org/docs/tutorial/part1.html
+// Database should already be sync'd using steps from above
 12. python web/manage.py startapp southtut
 13. add `'southtut',` just above `'south',` in the `INSTALLED_APPS` setting in web/settings.py
 14. python web/manage.py schemamigration southtut --initial #After making a new model
@@ -24,6 +26,6 @@ Steps to get started with Django on Heroku
 16. python web/manage.py schemamigration southtut --auto #After you make some changes to the model
 17. python web/manage.py migrate southtut
 
-#Optional
+### Optional
 18. mysqladmin -u DBUSER -p create project-db
 19. modify web/settings.py to reflect your database settings

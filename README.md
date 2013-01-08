@@ -18,13 +18,13 @@
 10. heroku open
 
 ### Assumes you're gonna use South for database management / migrations. http://south.aeracode.org/docs/tutorial/part1.html
-// Database should already be sync'd using steps from above
-12. python web/manage.py startapp southtut
-13. add `'southtut',` just above `'south',` in the `INSTALLED_APPS` setting in web/settings.py
-14. python web/manage.py schemamigration southtut --initial #After making a new model
-15. python web/manage.py migrate southtut
-16. python web/manage.py schemamigration southtut --auto #After you make some changes to the model
-17. python web/manage.py migrate southtut
+// Database should already be sync'd using steps from above  
+12. python web/manage.py startapp southtut  
+13. add `'southtut',` just above `'south',` in the `INSTALLED_APPS` setting in web/settings.py  
+14. python web/manage.py schemamigration southtut --initial #After making a new model  
+15. python web/manage.py migrate southtut  
+16. python web/manage.py schemamigration southtut --auto #After you make some changes to the model  
+17. python web/manage.py migrate southtut  
 
 ### Optional
 18. mysqladmin -u DBUSER -p create project-db

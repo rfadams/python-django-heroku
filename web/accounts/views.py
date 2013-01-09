@@ -19,7 +19,7 @@ class CreateUserView(DefaultsMixin, CreateView):
         cleaned_data = form.cleaned_data
         username = email = cleaned_data.get('username')
         password = cleaned_data.get('password1')
-        first_name = cleaned_data.get('first_name')
+        first_name = cleaned_data.get('first_name', '')
         redirect_to = cleaned_data.get('redirect_to', '') or reverse_lazy('accounts:profile')
 
         self.object = user = User.objects.create_user(username, email, password)

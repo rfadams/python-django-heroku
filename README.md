@@ -13,9 +13,9 @@
 6. Install the heroku CLI http://devcenter.heroku.com/articles/heroku-command
 7. heroku create --stack cedar project-name
 8. heroku config:add DJANGO_ENV=production
-9. heroku config:add DATABASE_URL=[mysql | postgres]://user:password@host:port/databaseName
 9. git push heroku master
 10. heroku open
+11. Yay! All done.
 
 ### Assumes you're gonna use South for database management / migrations. http://south.aeracode.org/docs/tutorial/part1.html
 // Database should already be sync'd using steps from above  

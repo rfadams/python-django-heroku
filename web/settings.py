@@ -14,6 +14,19 @@ DB_PASSWORD = ''
 DB_HOST = ''
 DB_PORT = ''
 
+
+# Heroku prefers Postgres. Setup an off-site mysql instance, http://addons.heroku.com/cleardb, or postgres.
+DATABASES = {
+        'default': {
+            'ENGINE': DB_ENGINE, # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+            'NAME': DB_NAME,                      # Or path to database file if using sqlite3.
+            'USER': DB_USER,                      # Not used with sqlite3.
+            'PASSWORD': DB_PASSWORD,                  # Not used with sqlite3.
+            'HOST': DB_HOST,                      # Set to empty string for localhost. Not used with sqlite3.
+            'PORT': DB_PORT,                      # Set to empty string for default. Not used with sqlite3.
+            }
+        }
+
 MEDIA_ROOT = '' + PROJECT_ROOT_PATH + '/web/public/media/'
 MEDIA_URL = '/public/media/'
 
@@ -24,6 +37,10 @@ if os.environ.get('DJANGO_ENV', False) == 'production':
 
     MEDIA_ROOT = ''
     MEDIA_URL = '/media/'
+
+    import dj_database_url
+    DATABASES['default'] =  dj_database_url.config()
+
 else:
     pass
     # Enable if want to find where naive datetimes are used. Warning: causes lots of problems
@@ -47,17 +64,6 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-# Heroku prefers Postgres. Setup an off-site mysql instance, http://addons.heroku.com/cleardb, or postgres.
-DATABASES = {
-    'default': {
-        'ENGINE': DB_ENGINE, # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': DB_NAME,                      # Or path to database file if using sqlite3.
-        'USER': DB_USER,                      # Not used with sqlite3.
-        'PASSWORD': DB_PASSWORD,                  # Not used with sqlite3.
-        'HOST': DB_HOST,                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': DB_PORT,                      # Set to empty string for default. Not used with sqlite3.
-    }
-}
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name

@@ -6,8 +6,8 @@
     d) source ~/Documents/PythonEnv/project-name/bin/activate  
 2. git clone https://rfadams@github.com/rfadams/python-django-heroku.git ~/projects/project-name
 3. cd ~/projects/project-name && pip install -r requirements.txt
-4. python web/manage.py syncdb --all //Gets user account profile configured properly
-5. python web/manage.py migrate --fake //Gets South migration configured properly
+4. python web/manage.py syncdb --all #Gets user account profile configured properly
+5. python web/manage.py migrate --fake #Gets South migration configured properly
 4. python web/manage.py runserver
 5. Create an account at http://heroku.com
 6. Install the heroku CLI http://devcenter.heroku.com/articles/heroku-command
@@ -17,8 +17,8 @@
 10. heroku open
 11. Yay! All done.
 
-### Assumes you're gonna use South for database management / migrations. http://south.aeracode.org/docs/tutorial/part1.html
-// Database should already be sync'd using steps from above  
+#### Assumes you're gonna use South for database management / migrations. http://south.aeracode.org/docs/tutorial/part1.html
+# Database should already be sync'd using steps from above  
 1. python web/manage.py startapp southtut  
 2. add `'southtut',` just above `'south',` in the `INSTALLED_APPS` setting in web/settings.py  
 3. python web/manage.py schemamigration southtut --initial #After making a new model  

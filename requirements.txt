@@ -1,6 +1,6 @@
 Django==1.4.2
 Markdown==2.1.1
-PyYAML==3.09
+PyYAML
 Pygments==1.4
 South==0.7.6
 django-extensions==0.9

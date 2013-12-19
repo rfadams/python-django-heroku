@@ -7,6 +7,8 @@ PRODUCTION = False
 DEBUG = True
 ROOT_TEMPLATE_DIR = PROJECT_ROOT_PATH + '/web/templates' #Path to '*PROJECT_DIR*/lib/public/templates'
 
+
+# DB_ENGINE = 'django.db.backends.postgresql_psycopg2'
 DB_ENGINE = 'django.db.backends.sqlite3'
 DB_NAME = PROJECT_ROOT_PATH + '/project-db.sqlite'
 DB_USER = ''

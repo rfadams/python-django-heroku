@@ -154,3 +154,7 @@ def reformat_sql(sql):
 def _txtmate(path,name,lineno=""):
     return mark_safe("<a href='txmt://open/?url=file://%s&line=%s'>%s</a>" % (path,lineno,name))
 
+
+class DisableCSRF(object):
+    def process_request(self, request):
+        setattr(request, '_dont_enforce_csrf_checks', True)

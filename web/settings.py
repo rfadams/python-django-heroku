@@ -1,12 +1,17 @@
 # Django settings for lib project.
-import os
+import os, sys
 PROJECT_ROOT_PATH = os.getcwd()
 
 #LOCAL SETTINGS
 PRODUCTION = False
 DEBUG = True
-ROOT_TEMPLATE_DIR = PROJECT_ROOT_PATH + '/web/templates' #Path to '*PROJECT_DIR*/lib/public/templates'
+TESTING = True if len(sys.argv) >= 2 and sys.argv[1] == 'test' else False
 
+DOMAIN_NAME = 'yourdomain.com'
+DOMAIN = 'http://127.0.0.1:8000'
+INTERNAL_IPS = ('127.0.0.1',)
+
+ROOT_TEMPLATE_DIR = PROJECT_ROOT_PATH + '/web/templates' #Path to '*PROJECT_DIR*/lib/public/templates'
 
 # DB_ENGINE = 'django.db.backends.postgresql_psycopg2'
 DB_ENGINE = 'django.db.backends.sqlite3'
@@ -29,8 +34,19 @@ DATABASES = {
             }
         }
 
-MEDIA_ROOT = '' + PROJECT_ROOT_PATH + '/web/public/media/'
+
+STATIC_URL = '/public/'
 MEDIA_URL = '/public/media/'
+
+# Do not change STATIC_ROOT to /web/public/, it will break both dev and production
+STATIC_ROOT = '' + PROJECT_ROOT_PATH + '/web/static/'
+MEDIA_ROOT = '' + PROJECT_ROOT_PATH + '/web/public/media/'
+
+if TESTING:
+    import warnings
+    warnings.filterwarnings("ignore", r"DateTimeField received a naive datetime", RuntimeWarning, r'django\.db\.models\.fields') 
+    SOUTH_TESTS_MIGRATE = False
+    EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
 
 if os.environ.get('DJANGO_ENV', False) == 'production':
     #Place Heroku / Production settings in here
@@ -43,13 +59,29 @@ if os.environ.get('DJANGO_ENV', False) == 'production':
     import dj_database_url
     DATABASES['default'] =  dj_database_url.config()
 
-else:
-    pass
-    # Enable if want to find where naive datetimes are used. Warning: causes lots of problems
-    # import warnings
-    # warnings.filterwarnings(
-    #     'error', r"DateTimeField received a naive datetime",
-    #     RuntimeWarning, r'django\.db\.models\.fields')
+    # Live Production site on Heroku
+    if DOMAIN[0:5] == 'https': 
+        CSRF_COOKIE_SECURE = True
+        SESSION_COOKIE_SECURE = True
+
+    # Setting for https from Heroku: https://devcenter.heroku.com/articles/getting-started-with-django#django-settings
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+
+SSL_CONNECTIONS = True if os.environ.get('SSL_CONNECTIONS', 'False').lower() == 'true' else False
+
+REST_FRAMEWORK = {
+    'DEFAULT_MODEL_SERIALIZER_CLASS': 'rest_framework.serializers.ModelSerializer',
+
+    'DEFAULT_PARSER_CLASSES': (
+        'rest_framework.parsers.JSONParser',
+    ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.UnicodeJSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ),
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json'
+}
 
 
 LOGIN_REDIRECT_URL = '/profile/'
@@ -100,16 +132,6 @@ USE_L10N = True
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
 # MEDIA_URL = ''
 
-# Absolute path to the directory static files should be collected to.
-# Don't put anything in this directory yourself; store your static files
-# in apps' "static/" subdirectories and in STATICFILES_DIRS.
-# Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = '' + PROJECT_ROOT_PATH + '/web/static/'
-
-# URL prefix for static files.
-# Example: "http://media.lawrence.com/static/"
-STATIC_URL = '/public/'
-
 # URL prefix for admin static files -- CSS, JavaScript and images.
 # Make sure to use a trailing slash.
 # Examples: "http://foo.com/static/admin/", "/static/admin/".
@@ -141,7 +163,13 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
-MIDDLEWARE_CLASSES = (
+if SSL_CONNECTIONS:
+    MIDDLEWARE_CLASSES = ('sslify.middleware.SSLifyMiddleware',)
+else:
+    MIDDLEWARE_CLASSES = ()
+
+MIDDLEWARE_CLASSES += (
+    'django.middleware.transaction.TransactionMiddleware',
     'django.middleware.gzip.GZipMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -151,6 +179,9 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'util.debug.DebugFooter',
 )
+
+if DEBUG:
+    MIDDLEWARE_CLASSES += ('util.debug.DisableCSRF',)
 
 AUTHENTICATION_BACKENDS = (
     'util.backends.EmailOrUsernameModelBackend',

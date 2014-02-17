@@ -29,6 +29,11 @@ Database should already be sync'd using steps from above
 5. python web/manage.py schemamigration southtut --auto #After you make some changes to the model  
 6. python web/manage.py migrate southtut  
 
-### Optional
-1. mysqladmin -u DBUSER -p create project-db
+### Optional - Create Database
+##### Mysql 
+1. mysqladmin -u DBUSER -p create <project-db>
+2. modify web/settings.py to reflect your database settings
+
+##### Postgres 
+1. createdb <project-db>
 2. modify web/settings.py to reflect your database settings

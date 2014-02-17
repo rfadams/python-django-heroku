@@ -5,7 +5,7 @@
     c) virtualenv project-name  
     d) source ~/Documents/PythonEnv/project-name/bin/activate  
 2. git clone https://rfadams@github.com/rfadams/python-django-heroku.git ~/projects/project-name
-3. cd ~/projects/project-name && pip install -r requirements.txt
+3. cd ~/projects/project-name && pip install --upgrade setuptools && pip install -r requirements.txt
 4. python web/manage.py syncdb --all #Gets user account profile configured properly
 5. python web/manage.py migrate --fake #Gets South migration configured properly
 4. python web/manage.py runserver

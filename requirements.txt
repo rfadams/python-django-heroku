@@ -1,4 +1,4 @@
-Django==1.4.10
+Django==1.11.23
 Markdown==2.3.1
 PyYAML==3.10
 Pygments==1.6
